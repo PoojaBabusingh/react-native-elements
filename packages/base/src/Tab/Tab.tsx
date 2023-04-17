@@ -211,13 +211,21 @@ export const TabBase: RneFunctionComponent<TabProps> = ({
                   onPress: () => onChange(index),
                   onLayout: (event: LayoutChangeEvent) => {
                     const { width } = event.nativeEvent.layout;
-                    const previousItemPosition =
-                      tabItemPositions.current[index - 1]?.position || 0;
+                    const currentItemPosition = (index + 1) * width;
 
                     tabItemPositions.current[index] = {
-                      position: previousItemPosition + width,
+                      position: currentItemPosition,
                       width,
                     };
+                    for (var i = 0; i < tabItemPositions.current.length; i++) {
+                      var item = tabItemPositions.current[i];
+                      if (!item) {
+                        tabItemPositions.current[i] = {
+                          position: 0,
+                          width: 0,
+                        };
+                      }
+                    }
                   },
                   active: index === value,
                   variant,
